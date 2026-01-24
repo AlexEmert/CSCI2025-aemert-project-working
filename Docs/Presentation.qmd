@@ -1,0 +1,11 @@
+---
+title: "Individual Project Results"
+date: 2026-01
+format: html
+---
+
+# Title
+
+## What I started with
+
+I 
