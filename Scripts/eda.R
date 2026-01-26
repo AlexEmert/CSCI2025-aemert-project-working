@@ -57,3 +57,19 @@ full_data |>
   geom_point() +
   scale_color_manual(values = c("B" = "black", "G" = "green", "U" = "blue", "R" = "red", "W" = "white", "Multicolored" = "salmon")) +
   geom_smooth(se=FALSE, method = "lm") 
+
+library(plotly)
+
+fig1 <- plot_ly(full_data, z=~volcano) |>
+  add_surface()
+fig1
+
+
+#most common first names in artists
+full_data |>
+  select(artist) |>
+  mutate(firstName = str_extract(artist, "^\\S+")) |>
+  count(firstName) |>
+  arrange(desc(n)) |>
+  head()
+
