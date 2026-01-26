@@ -24,14 +24,36 @@ plot_data |>
   geom_point()
 
 #new approach
-scryfall_cards <- scry_cards("is:commander") |>
+scryfall_cards <- scry_cards("type:goblin c:green") |>
   glimpse()
-
-scryfall_cards <- scryfall_cards |>
-  unnest(prices)
-
-scryfall_cards_sets <- scryfall_cards |>
-  select(set)
-
-  ggplot(scryfall_cards_sets, aes(x=set)) +
+  ggplot(scryfall_cards, aes(x=set)) +
   geom_bar()
+
+full_data <- cards_data |>
+  left_join(card_price_data) |>
+  filter(price < 200000) 
+
+full_data <- full_data |>
+  select(-asciiName, -attractionLights, -boosterTypes, -cardParts, -duelDeck, -faceConvertedManaCost, 
+  -faceFlavorName, -faceManaValue, -faceName, -facePrintedName, -frameEffects, -hand, -hasAlternativeDeckLimit, 
+  -isAlternative, -isStorySpotlight, -isTimeshifted, -otherFaceIds, -printedName, -printedType, -printedText, 
+  -rebalancedPrintings, -relatedCards, -securityStamp, -side, -originalText)
+
+full_data |>
+  write_csv("data/processed/cleaned_data.csv")
+
+
+full_data |>
+  filter(edhrecRank <=100) |>
+ggplot(aes(x=edhrecRank, y = price)) +
+  geom_point()
+  
+full_data <- full_data |>
+  mutate(color_type = if_else(str_detect(colors, ","), "Multicolored", colors))
+
+full_data |>
+  filter(edhrecSaltiness >=1) |>
+  ggplot(aes(x=edhrecRank, y =edhrecSaltiness, color = color_type)) +
+  geom_point() +
+  scale_color_manual(values = c("B" = "black", "G" = "green", "U" = "blue", "R" = "red", "W" = "white", "Multicolored" = "salmon")) +
+  geom_smooth(se=FALSE, method = "lm") 
