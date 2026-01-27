@@ -13,7 +13,7 @@ mtg_data_unique <- clean_data |>
 simulate_booster <- function(mtg_data_unique, set_code_input) {
 
   set_pool <- mtg_data_unique |>
-      filter(set_code_input == setCode)
+      filter(setCode == set_code_input)
 
   commons <- set_pool  |>
     filter(rarity == "common")
@@ -45,17 +45,17 @@ simulate_booster <- function(mtg_data_unique, set_code_input) {
 }
 
 
-ui <- page_fluid(
+ui <- fluidPage(
 
   titlePanel("Simulate some Booster Packs!"),
   
-  siderbarLayout(
+  sidebarLayout(
 
     sidebarPanel(
 
       selectInput("setCodeChosen", label = "Select Set", 
-                  choices = ls("mtg_data_unique$setCode")),
-                  
+                  choices = unique(mtg_data_unique$setCode)),
+
       actionButton("simulate_btn", "Simulate!", class = "btn-primary")
     ),
 
@@ -69,28 +69,28 @@ ui <- page_fluid(
 server <- function(input, output, session) {
 
   simulated_data <- eventReactive(input$simulate_btn, {
-    
+    # browser()
     selected_val <- input$setCodeChosen
-    
-    first_pack <- simulate_booster(mtg_data_unique, selected_val)
 
     sim_results <- replicate(1000, {
       avg_pack <- simulate_booster(mtg_data_unique, selected_val)
       sum(avg_pack$price, na.rm = TRUE)
     }, simplify = TRUE)
 
-    return(sim_results)
+    results_df <- tibble(sim_results)
+    
+    return(results_df)
 
   })
 
-  ouput$simTable <- renderTable ({
+  "output$simTable <- renderTable ({
     head(simulated_data())
   })
-
+"
   output$simPlot <- renderPlot ({
-    ggplot(sim_results, aes(x = total_value)) +
+    ggplot(simulated_data(), aes(x = sim_results$avg_pack)) +
     geom_histogram(fill = "steelblue", color = "white") +
-    geom_vline(xintercept = mean(sim_results), color = "red", linetype = "dashed") +
+    geom_vline(xintercept = mean(total_value), color = "red", linetype = "dashed") +
     labs(title = "Distribution of Booster Pack Values",
          x = "Total Pack Value ($)",
          y = "Frequency")
