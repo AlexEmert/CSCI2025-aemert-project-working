@@ -1,8 +1,10 @@
 library(shiny)
 library(bslib)
 library(tidyverse)
+library(here)
 
-clean_data <- read_csv("Data/processed/cleaned_data.csv")
+clean_data <- read_csv(here("Data/processed", "cleaned_data.csv"))
+
 
 mtg_data_unique <- clean_data |>
   distinct(name, setCode, .keep_all = TRUE)
@@ -44,12 +46,16 @@ simulate_booster <- function(mtg_data_unique, set_code_input) {
 
 
 ui <- page_fluid(
+
   titlePanel("Simulate some Booster Packs!"),
   
   siderbarLayout(
+
     sidebarPanel(
+
       selectInput("setCodeChosen", label = "Select Set", 
                   choices = ls("mtg_data_unique$setCode")),
+                  
       actionButton("simulate_btn", "Simulate!", class = "btn-primary")
     ),
 
