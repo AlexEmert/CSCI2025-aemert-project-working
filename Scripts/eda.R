@@ -141,7 +141,7 @@ my_pack |>
   print()
 
 sim_results <- replicate(1000, {
-  avg_pack <- simulate_booster(mtg_data_unique, "MH3")
+  avg_pack <- simulate_booster(mtg_data_unique, selected_val)
   sum(avg_pack$price, na.rm = TRUE)
 }, simplify = TRUE)
 
