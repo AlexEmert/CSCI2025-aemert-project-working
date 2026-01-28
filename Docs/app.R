@@ -72,7 +72,7 @@ server <- function(input, output, session) {
     # browser()
     selected_val <- input$setCodeChosen
 
-    sim_results <- map_dbl(1:100, {
+    sim_results <- replicate(1000, {
       avg_pack <- simulate_booster(mtg_data_unique, selected_val)
       sum(avg_pack$price, na.rm = TRUE)
     }, simplify = TRUE)
