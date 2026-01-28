@@ -60,8 +60,8 @@ ui <- fluidPage(
     ),
 
   mainPanel(
-    tableOutput("simTable"),
-    plotOutput("simPlot")
+    plotOutput("simPlot"),
+    tableOutput("simTable")
     )
   )
 )
@@ -72,7 +72,7 @@ server <- function(input, output, session) {
     # browser()
     selected_val <- input$setCodeChosen
 
-    sim_results <- replicate(1000, {
+    sim_results <- replicate(100, {
       avg_pack <- simulate_booster(mtg_data_unique, selected_val)
       sum(avg_pack$price, na.rm = TRUE)
     }, simplify = TRUE)
