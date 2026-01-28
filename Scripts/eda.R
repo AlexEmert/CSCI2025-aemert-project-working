@@ -140,6 +140,11 @@ my_pack |>
   select(name, rarity) |>
   print()
 
+pack_value <- my_pack |>
+  summarize(total_value = sum(price)) |>
+  print()
+   
+
 sim_results <- replicate(1000, {
   avg_pack <- simulate_booster(mtg_data_unique, "MH3")
   sum(avg_pack$price, na.rm = TRUE)
