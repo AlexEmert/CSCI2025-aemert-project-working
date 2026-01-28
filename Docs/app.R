@@ -72,25 +72,21 @@ server <- function(input, output, session) {
     # browser()
     selected_val <- input$setCodeChosen
 
-    sim_results <- replicate(1000, {
+    sim_results <- map_dbl(1:100, {
       avg_pack <- simulate_booster(mtg_data_unique, selected_val)
       sum(avg_pack$price, na.rm = TRUE)
     }, simplify = TRUE)
 
-    results_df <- tibble(sim_results)
+    results_df <- tibble(total_value = sim_results)
     
     return(results_df)
 
   })
 
-  "output$simTable <- renderTable ({
-    head(simulated_data())
-  })
-"
   output$simPlot <- renderPlot ({
-    ggplot(simulated_data(), aes(x = sim_results$avg_pack)) +
+    ggplot(simulated_data(), aes(x = total_value)) +
     geom_histogram(fill = "steelblue", color = "white") +
-    geom_vline(xintercept = mean(total_value), color = "red", linetype = "dashed") +
+    #geom_vline(xintercept = mean(total_value), color = "red", linetype = "dashed") +
     labs(title = "Distribution of Booster Pack Values",
          x = "Total Pack Value ($)",
          y = "Frequency")
