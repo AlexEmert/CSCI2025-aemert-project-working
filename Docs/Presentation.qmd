@@ -1,27 +1,76 @@
 ---
 title: "My Individual Project"
 author: "Alex Emert"
-format: pptx
+format: 
+    revealjs:
+        theme: solarized
+embed-resources: true
 ---
+
+# Initial Goals
+
+- build confidence in R and other R packages
+
+- learn more about mtg booster pack and commander data
+
+- Use an API??
+
 
 # Where I started
 
 I started by looking at the Scryfall R package, which is kind of like a built in API.
 
 -`scryr`: uses function `scry_cards()` to find magic cards that fit the search
-```{r}
-#| message: false
-library(scryr)
-```
-## Problems
-Unfortunately, the package turned out to be not really what I was looking for. Not only was the syntax for searching very unique and complex but it took too long to find the amount of cards that I wanted.
+
+Uses scryfall search terms, not R's. Makes it more confusing to find certain cards as it uses it's own syntax.
+
 
 # Next Steps
 
 Then, I looked at the MTGJSON data, which both has an API and downloadable files of all
 MTG cards.
 
-```{r}
-#| include: false
-library(tidyverse)
-```
+The raw data included over 15 csvs worth of data, some of which had ~200,000 rows.
+
+# Ideas that I got from there
+
+![Commander Popularity/Dislike by color](../Docs/Outputs/plot-157.png)
+
+
+# Another direction I could have gone
+
+![Highest average card value by Artist first name](../Docs/Outputs/plot-171.png)
+
+
+# Developing the project
+
+Goal: 
+
+- Shiny app that can simulate opening a bunch of booster packs, and show you the distribution of total pack price
+- show example pack from linked card image data (scyr search)
+
+# The Process
+
+![Where things went wrong](../Docs/Outputs/buggy_graph.png){width="100px"}
+
+Some sets that were smaller had errors due to different real-life booster pack sizes, or inconsistent data from 20+ years of changes to card creation
+
+# Example of correct graph from simulated boosters
+
+![Where things went right](../Docs/Outputs/plot-207.png)
+
+# RESULTS
+
+- In the end, the app kind of worked but only for certain sets 
+- Any errors are most likely due to data cleaning which I struggled with given the size of the data
+- Was not able to show example pack opening due to limitations between scryr and MTGJSON data
+
+
+# What I would do differently next time (lessons)
+
+- Better time management (choose more specific topic/goal sooner and commit to it)
+- Start smaller and then work my way up to a project that I can finish in time
+- Much more data wrangling a.k.a. get the boring stuff out of the way earlier
+
+# Thanks for watching!
+
