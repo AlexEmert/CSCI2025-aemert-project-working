@@ -26,10 +26,10 @@ plot_data |>
   geom_point()
 
 #new approach
-scryfall_cards <- scry_cards("type:goblin c:green") |>
-  glimpse()
-  ggplot(scryfall_cards, aes(x=set)) +
-  geom_bar()
+scry_cards("type:goblin c:green") |>
+  ggplot(aes(x=set)) +
+  geom_bar() +
+  labs(title = "Distribution of all green goblin creatures")
 
 full_data <- cards_data |>
   left_join(card_price_data) |>
@@ -59,6 +59,8 @@ clean_data|>
   scale_color_manual(values = c("B" = "black", "G" = "green", "U" = "blue", "R" = "red", "W" = "white", "Multicolored" = "salmon")) +
   geom_smooth(se=FALSE, method = "lm") 
 
+
+# first look at plotly, doesn't really seem to be related to what I want to look at
 fig1 <- plot_ly(clean_data, z=~volcano) |>
   add_surface()
 fig1
