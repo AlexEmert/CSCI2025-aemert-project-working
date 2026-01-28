@@ -1,11 +1,27 @@
 ---
-title: "Individual Project Results"
-date: 2026-01
-format: html
+title: "My Individual Project"
+author: "Alex Emert"
+format: pptx
 ---
 
-# Title
+# Where I started
 
-## What I started with
+I started by looking at the Scryfall R package, which is kind of like a built in API.
 
-I 
+-`scryr`: uses function `scry_cards()` to find magic cards that fit the search
+```{r}
+#| message: false
+library(scryr)
+```
+## Problems
+Unfortunately, the package turned out to be not really what I was looking for. Not only was the syntax for searching very unique and complex but it took too long to find the amount of cards that I wanted.
+
+# Next Steps
+
+Then, I looked at the MTGJSON data, which both has an API and downloadable files of all
+MTG cards.
+
+```{r}
+#| include: false
+library(tidyverse)
+```
